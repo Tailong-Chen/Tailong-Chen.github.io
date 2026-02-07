@@ -8,21 +8,23 @@
 
 ```python
 class TaiLongChen:
-    def __init__(self):
-        self.name = "Tai-Long Chen"
-        self.role = "Computational Imaging Researcher"
-        self.interests = [
-            "Single Molecule Localization Microscopy (SMLM)",
-            "Super-Resolution Imaging",
-            "Deep Learning for Microscopy",
-            "Ultrasound Localization Microscopy",
-            "PSF Modeling & Engineering",
-            "Drift Correction Algorithms",
-        ]
-        self.languages = ["Python", "MATLAB", "Julia", "C++/CUDA"]
-        self.current_focus = "NP-Cloud drift correction for SMLM"
+    name     = "Tai-Long Chen"
+    role     = "Computational Imaging Researcher"
+    focus    = "NP-Cloud drift correction"
 
-me = TaiLongChen()
+    interests = [
+        "SMLM",
+        "Super-Resolution Imaging",
+        "Deep Learning for Microscopy",
+        "Ultrasound Localization",
+        "PSF Modeling",
+        "Drift Correction",
+    ]
+
+    languages = [
+        "Python", "MATLAB",
+        "Julia",  "C++/CUDA",
+    ]
 ```
 
 ---
