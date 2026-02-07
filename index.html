@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tai-Long Chen | Computational Imaging & Microscopy</title>
+    <meta name="description" content="Tai-Long Chen - Researcher in Single Molecule Localization Microscopy, Computational Imaging, and Deep Learning">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <header class="top-header" id="topHeader">
+        <div class="header-inner">
+            <a href="#" class="site-title">Tai-Long Chen</a>
+            <nav class="top-nav" id="topNav">
+                <a href="#about" class="top-nav-link active">About</a>
+                <a href="#research" class="top-nav-link">Research</a>
+                <a href="#publications" class="top-nav-link">Publications</a>
+                <a href="#projects" class="top-nav-link">Projects</a>
+                <a href="#teaching" class="top-nav-link">Teaching</a>
+                <a href="#cv" class="top-nav-link">CV</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileOverlay">
+        <nav class="mobile-nav-menu">
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#research" class="mobile-nav-link">Research</a>
+            <a href="#publications" class="mobile-nav-link">Publications</a>
+            <a href="#projects" class="mobile-nav-link">Projects</a>
+            <a href="#teaching" class="mobile-nav-link">Teaching</a>
+            <a href="#cv" class="mobile-nav-link">CV</a>
+        </nav>
+    </div>
+
+    <!-- Main Layout: Sidebar + Content -->
+    <div class="page-layout">
+
+        <!-- ===== LEFT SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-sticky">
+                <!-- Profile -->
+                <div class="profile">
+                    <div class="profile-avatar">
+                        <canvas id="moleculeCanvas" width="160" height="160"></canvas>
+                        <div class="avatar-inner">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                    </div>
+                    <h1 class="profile-name">Tai-Long Chen</h1>
+                    <p class="profile-title">Computational Imaging Researcher</p>
+                </div>
+
+                <!-- Bio -->
+                <p class="sidebar-bio">
+                    Bridging advanced optical imaging and computational methods to push the 
+                    boundaries of super-resolution microscopy.
+                </p>
+
+                <!-- Info -->
+                <ul class="sidebar-info">
+                    <li>
+                        <i class="fas fa-flask"></i>
+                        <span>Microscopy & Imaging Lab</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Computational Imaging</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Working from Home</span>
+                    </li>
+                </ul>
+
+                <!-- Social Links -->
+                <div class="sidebar-social">
+                    <a href="https://github.com/Tailong-Chen" target="_blank" title="GitHub" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" title="Google Scholar" class="social-link">
+                        <i class="fas fa-graduation-cap"></i>
+                    </a>
+                    <a href="#" title="ORCID" class="social-link">
+                        <i class="fab fa-orcid"></i>
+                    </a>
+                    <a href="mailto:contact@example.com" title="Email" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+
+                <!-- Research Keywords Cloud -->
+                <div class="sidebar-keywords">
+                    <h4>Research Keywords</h4>
+                    <div class="keyword-cloud">
+                        <span style="--size: 1.15">SMLM</span>
+                        <span style="--size: 0.85">PALM</span>
+                        <span style="--size: 1.0">Deep Learning</span>
+                        <span style="--size: 0.9">PSF</span>
+                        <span style="--size: 1.1">Super-Resolution</span>
+                        <span style="--size: 0.8">STORM</span>
+                        <span style="--size: 0.95">Ultrasound</span>
+                        <span style="--size: 0.85">Drift Correction</span>
+                        <span style="--size: 0.9">Image Analysis</span>
+                        <span style="--size: 1.05">Computational Optics</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="main-content">
+
+            <!-- Hero / Welcome Banner -->
+            <section class="hero-banner" id="about">
+                <div class="hero-text">
+                    <h2 class="hero-headline">
+                        Pushing the Boundaries of 
+                        <span class="text-gradient">Super-Resolution Microscopy</span>
+                    </h2>
+                    <p class="hero-sub">
+                        I develop novel computational methods and algorithms that enable 
+                        imaging at the nanoscale &mdash; from single molecule localization to 
+                        ultrasound super-resolution. My work combines optical physics, 
+                        signal processing, and deep learning to solve challenging problems 
+                        in biomedical imaging.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#research" class="btn btn-primary">
+                            <i class="fas fa-flask"></i> My Research
+                        </a>
+                        <a href="#publications" class="btn btn-ghost">
+                            <i class="fas fa-book-open"></i> Publications
+                        </a>
+                        <a href="https://github.com/Tailong-Chen" target="_blank" class="btn btn-ghost">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+                <!-- Decorative Microscopy Illustration -->
+                <div class="hero-visual">
+                    <canvas id="psfCanvas" width="320" height="240"></canvas>
+                </div>
+            </section>
+
+            <!-- News / Highlights Ticker -->
+            <section class="news-ticker">
+                <div class="ticker-label"><i class="fas fa-bullhorn"></i> News</div>
+                <div class="ticker-track">
+                    <div class="ticker-items" id="tickerItems">
+                        <span class="ticker-item"><strong>Jan 2026</strong> &mdash; Released npcloud-python v1.0: NP-Cloud drift correction for SMLM</span>
+                        <span class="ticker-item"><strong>2025</strong> &mdash; Contributed to NAIRR-SMLM benchmark datasets for AI research</span>
+                        <span class="ticker-item"><strong>2024</strong> &mdash; Exploring deep learning approaches for PSF engineering</span>
+                        <span class="ticker-item"><strong>Ongoing</strong> &mdash; Open to research collaborations in computational imaging</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Research Section ===== -->
+            <section class="content-section" id="research">
+                <h2 class="section-heading">
+                    <span class="heading-icon"><i class="fas fa-flask"></i></span>
+                    Research Areas
+                </h2>
+                <p class="section-intro">
+                    My research lies at the intersection of optics, computation, and biology. 
+                    I focus on developing methods that extract maximum information from microscopy data.
+                </p>
+
+                <div class="research-mosaic">
+                    <!-- Card 1 - Featured -->
+                    <article class="r-card r-featured">
+                        <div class="r-card-accent"></div>
+                        <div class="r-card-body">
+                            <div class="r-card-icon"><i class="fas fa-atom"></i></div>
+                            <h3>Single Molecule Localization Microscopy</h3>
+                            <p>
+                                Developing advanced algorithms for localizing individual fluorescent 
+                                molecules with nanometer precision. My work on SMLM spans localization 
+                                algorithms, drift correction (NP-Cloud), and PSF modeling for 
+                                super-resolution imaging beyond the diffraction limit.
+                            </p>
+                            <div class="r-tags">
+                                <span>SMLM</span><span>PALM</span><span>STORM</span>
+                                <span>PSF Engineering</span><span>NP-Cloud</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="r-card">
+                        <div class="r-card-accent"></div>
+                        <div class="r-card-body">
+                            <div class="r-card-icon"><i class="fas fa-heartbeat"></i></div>
+                            <h3>Ultrasound Localization Microscopy</h3>
+                            <p>
+                                Applying super-resolution concepts to ultrasound imaging for 
+                                visualization of microvasculature and blood flow at unprecedented resolution.
+                            </p>
+                            <div class="r-tags">
+                                <span>ULM</span><span>Microbubble</span><span>Flow Field</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="r-card">
+                        <div class="r-card-accent"></div>
+                        <div class="r-card-body">
+                            <div class="r-card-icon"><i class="fas fa-brain"></i></div>
+                            <h3>Deep Learning for Microscopy</h3>
+                            <p>
+                                Leveraging neural networks for image reconstruction, denoising, 
+                                segmentation, and super-resolution in microscopy.
+                            </p>
+                            <div class="r-tags">
+                                <span>CNN</span><span>Segmentation</span><span>Reconstruction</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4 -->
+                    <article class="r-card">
+                        <div class="r-card-accent"></div>
+                        <div class="r-card-body">
+                            <div class="r-card-icon"><i class="fas fa-bullseye"></i></div>
+                            <h3>PSF Modeling & Engineering</h3>
+                            <p>
+                                Modeling and engineering point spread functions for 3D localization, 
+                                including scalar and vectorial models.
+                            </p>
+                            <div class="r-tags">
+                                <span>3D PSF</span><span>Vectorial</span><span>Aberration</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 5 -->
+                    <article class="r-card">
+                        <div class="r-card-accent"></div>
+                        <div class="r-card-body">
+                            <div class="r-card-icon"><i class="fas fa-chart-line"></i></div>
+                            <h3>Image Analysis & Quantification</h3>
+                            <p>
+                                Quantitative analysis tools for microscopy: velocimetry, 
+                                segmentation, and statistical methods.
+                            </p>
+                            <div class="r-tags">
+                                <span>Velocimetry</span><span>Statistics</span><span>Analysis</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ===== Publications Section ===== -->
+            <section class="content-section" id="publications">
+                <h2 class="section-heading">
+                    <span class="heading-icon"><i class="fas fa-book-open"></i></span>
+                    Selected Publications
+                </h2>
+
+                <div class="pub-timeline">
+                    <div class="pub-year-group">
+                        <div class="pub-year-marker">
+                            <span>2026</span>
+                        </div>
+                        <div class="pub-entries">
+                            <article class="pub-entry">
+                                <div class="pub-dot"></div>
+                                <div class="pub-body">
+                                    <h4 class="pub-title">NP-Cloud: A Robust Drift Correction Method for Single Molecule Localization Microscopy</h4>
+                                    <p class="pub-authors"><strong>Tai-Long Chen</strong> et al.</p>
+                                    <div class="pub-meta">
+                                        <span class="pub-venue"><i class="fas fa-book"></i> In preparation</span>
+                                    </div>
+                                    <div class="pub-actions">
+                                        <a href="https://github.com/Tailong-Chen/npcloud-python" target="_blank" class="pub-btn">
+                                            <i class="fab fa-github"></i> Code
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="pub-year-group">
+                        <div class="pub-year-marker">
+                            <span>Ongoing</span>
+                        </div>
+                        <div class="pub-entries">
+                            <article class="pub-entry">
+                                <div class="pub-dot"></div>
+                                <div class="pub-body">
+                                    <h4 class="pub-title">Research in Computational Super-Resolution and Deep Learning for Microscopy</h4>
+                                    <p class="pub-authors"><strong>Tai-Long Chen</strong> et al.</p>
+                                    <div class="pub-meta">
+                                        <span class="pub-venue"><i class="fas fa-flask"></i> Active research projects</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pub-note">
+                    <i class="fas fa-info-circle"></i>
+                    Full publication list is being updated. Please check back soon or visit my 
+                    <a href="https://github.com/Tailong-Chen" target="_blank">GitHub</a> for the latest work.
+                </div>
+            </section>
+
+            <!-- ===== Projects Section ===== -->
+            <section class="content-section" id="projects">
+                <h2 class="section-heading">
+                    <span class="heading-icon"><i class="fas fa-code-branch"></i></span>
+                    Open Source Projects
+                </h2>
+                <p class="section-intro">
+                    I believe in open science. Here are some of my notable repositories and 
+                    tools available on GitHub.
+                </p>
+
+                <div class="projects-list">
+                    <!-- Featured Project -->
+                    <article class="proj-card proj-featured">
+                        <div class="proj-featured-badge">Featured</div>
+                        <div class="proj-card-top">
+                            <div class="proj-icon-wrap">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div class="proj-meta-right">
+                                <span class="proj-lang"><span class="lang-dot" style="background:#3572A5"></span> Python</span>
+                                <span class="proj-stars"><i class="fas fa-star"></i> 1</span>
+                            </div>
+                        </div>
+                        <h3><a href="https://github.com/Tailong-Chen/npcloud-python" target="_blank">npcloud-python</a></h3>
+                        <p>Python implementation of NP-Cloud drift correction for SMLM. A robust 
+                        computational method for correcting sample drift using nanoparticle fiducial markers.</p>
+                        <div class="proj-tags">
+                            <span>Python</span><span>NumPy</span><span>SMLM</span><span>Drift Correction</span>
+                        </div>
+                    </article>
+
+                    <!-- Other projects in grid -->
+                    <div class="proj-grid">
+                        <article class="proj-card-sm">
+                            <div class="proj-card-sm-header">
+                                <i class="fas fa-folder-open"></i>
+                                <a href="https://github.com/Tailong-Chen/segmentation" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                            <h4><a href="https://github.com/Tailong-Chen/segmentation" target="_blank">segmentation</a></h4>
+                            <p>Image segmentation tools and algorithms for microscopy data analysis.</p>
+                            <span class="proj-lang"><span class="lang-dot" style="background:#3572A5"></span> Python</span>
+                        </article>
+
+                        <article class="proj-card-sm">
+                            <div class="proj-card-sm-header">
+                                <i class="fas fa-folder-open"></i>
+                                <a href="https://github.com/Tailong-Chen/dataset" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                            <h4><a href="https://github.com/Tailong-Chen/dataset" target="_blank">dataset</a></h4>
+                            <p>Curated datasets for microscopy research and algorithm benchmarking.</p>
+                            <span class="proj-lang"><span class="lang-dot" style="background:#888"></span> Data</span>
+                        </article>
+
+                        <article class="proj-card-sm">
+                            <div class="proj-card-sm-header">
+                                <i class="fas fa-folder-open"></i>
+                                <a href="https://github.com/Tailong-Chen/PALA" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                            <h4><a href="https://github.com/Tailong-Chen/PALA" target="_blank">PALA</a></h4>
+                            <p>OPUS-PALA & LOTUS tools for ultrasound localization microscopy.</p>
+                            <span class="proj-lang"><span class="lang-dot" style="background:#e16737"></span> MATLAB</span>
+                        </article>
+
+                        <article class="proj-card-sm">
+                            <div class="proj-card-sm-header">
+                                <i class="fas fa-folder-open"></i>
+                                <a href="https://github.com/Tailong-Chen/NAIRR-SMLM" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                            <h4><a href="https://github.com/Tailong-Chen/NAIRR-SMLM" target="_blank">NAIRR-SMLM</a></h4>
+                            <p>SMLM benchmark datasets for AI research, training, and education.</p>
+                            <span class="proj-lang"><span class="lang-dot" style="background:#888"></span> Benchmark</span>
+                        </article>
+
+                        <article class="proj-card-sm">
+                            <div class="proj-card-sm-header">
+                                <i class="fas fa-folder-open"></i>
+                                <a href="https://github.com/Tailong-Chen/BasicSR" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                            <h4><a href="https://github.com/Tailong-Chen/BasicSR" target="_blank">BasicSR</a></h4>
+                            <p>Image restoration toolbox: EDSR, ESRGAN, SwinIR and more.</p>
+                            <span class="proj-lang"><span class="lang-dot" style="background:#3572A5"></span> Python</span>
+                        </article>
+
+                        <article class="proj-card-sm">
+                            <div class="proj-card-sm-header">
+                                <i class="fas fa-folder-open"></i>
+                                <a href="https://github.com/Tailong-Chen/MicroscopePSFs.jl" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                            <h4><a href="https://github.com/Tailong-Chen/MicroscopePSFs.jl" target="_blank">MicroscopePSFs.jl</a></h4>
+                            <p>Microscope Point Spread Function Calculator in Julia.</p>
+                            <span class="proj-lang"><span class="lang-dot" style="background:#9558B2"></span> Julia</span>
+                        </article>
+                    </div>
+
+                    <div class="proj-more">
+                        <a href="https://github.com/Tailong-Chen?tab=repositories" target="_blank" class="btn btn-ghost">
+                            View all 43 repositories on GitHub <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Skills / Toolbox ===== -->
+            <section class="content-section" id="teaching">
+                <h2 class="section-heading">
+                    <span class="heading-icon"><i class="fas fa-tools"></i></span>
+                    Skills & Toolbox
+                </h2>
+
+                <div class="skills-visual">
+                    <div class="skill-group">
+                        <h4>Programming Languages</h4>
+                        <div class="skill-bars">
+                            <div class="sbar">
+                                <div class="sbar-label">
+                                    <span>Python</span><span>Expert</span>
+                                </div>
+                                <div class="sbar-track"><div class="sbar-fill" data-level="95" style="--hue: 210"></div></div>
+                            </div>
+                            <div class="sbar">
+                                <div class="sbar-label">
+                                    <span>MATLAB</span><span>Expert</span>
+                                </div>
+                                <div class="sbar-track"><div class="sbar-fill" data-level="90" style="--hue: 200"></div></div>
+                            </div>
+                            <div class="sbar">
+                                <div class="sbar-label">
+                                    <span>Julia</span><span>Proficient</span>
+                                </div>
+                                <div class="sbar-track"><div class="sbar-fill" data-level="70" style="--hue: 270"></div></div>
+                            </div>
+                            <div class="sbar">
+                                <div class="sbar-label">
+                                    <span>C++ / CUDA</span><span>Intermediate</span>
+                                </div>
+                                <div class="sbar-track"><div class="sbar-fill" data-level="65" style="--hue: 150"></div></div>
+                            </div>
+                            <div class="sbar">
+                                <div class="sbar-label">
+                                    <span>JavaScript</span><span>Basic</span>
+                                </div>
+                                <div class="sbar-track"><div class="sbar-fill" data-level="50" style="--hue: 45"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-group">
+                        <h4>Frameworks & Tools</h4>
+                        <div class="tool-grid">
+                            <div class="tool-item"><i class="fas fa-fire"></i><span>PyTorch</span></div>
+                            <div class="tool-item"><i class="fas fa-cube"></i><span>NumPy</span></div>
+                            <div class="tool-item"><i class="fas fa-chart-bar"></i><span>SciPy</span></div>
+                            <div class="tool-item"><i class="fas fa-image"></i><span>OpenCV</span></div>
+                            <div class="tool-item"><i class="fas fa-chart-line"></i><span>Matplotlib</span></div>
+                            <div class="tool-item"><i class="fas fa-table"></i><span>Pandas</span></div>
+                            <div class="tool-item"><i class="fas fa-project-diagram"></i><span>scikit-learn</span></div>
+                            <div class="tool-item"><i class="fas fa-book"></i><span>Jupyter</span></div>
+                            <div class="tool-item"><i class="fas fa-microchip"></i><span>CUDA</span></div>
+                            <div class="tool-item"><i class="fas fa-microscope"></i><span>ImageJ</span></div>
+                            <div class="tool-item"><i class="fab fa-git-alt"></i><span>Git</span></div>
+                            <div class="tool-item"><i class="fab fa-docker"></i><span>Docker</span></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-group">
+                        <h4>Domain Expertise</h4>
+                        <div class="expertise-chips">
+                            <span class="chip chip-primary">Single Molecule Localization Microscopy</span>
+                            <span class="chip chip-primary">PSF Modeling & Engineering</span>
+                            <span class="chip chip-primary">Super-Resolution Imaging</span>
+                            <span class="chip chip-accent">Ultrasound Localization Microscopy</span>
+                            <span class="chip chip-accent">Deep Learning for Imaging</span>
+                            <span class="chip chip-accent">Image Reconstruction</span>
+                            <span class="chip chip-muted">Signal Processing</span>
+                            <span class="chip chip-muted">Computational Optics</span>
+                            <span class="chip chip-muted">Biomedical Imaging</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== CV Section ===== -->
+            <section class="content-section" id="cv">
+                <h2 class="section-heading">
+                    <span class="heading-icon"><i class="fas fa-file-alt"></i></span>
+                    Curriculum Vitae
+                </h2>
+
+                <div class="cv-timeline">
+                    <div class="cv-item">
+                        <div class="cv-marker">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <div class="cv-content">
+                            <span class="cv-date">Present</span>
+                            <h4>Research in Computational Imaging</h4>
+                            <p>Developing novel algorithms for super-resolution microscopy, drift correction, 
+                            and deep learning approaches for biomedical imaging.</p>
+                        </div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-marker">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="cv-content">
+                            <span class="cv-date">2023 - Present</span>
+                            <h4>Open Source Contributor</h4>
+                            <p>Active contributor to open source projects in microscopy and image processing. 
+                            Maintainer of npcloud-python and related tools.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cv-download">
+                    <p>Full CV available upon request.</p>
+                    <a href="mailto:contact@example.com" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Request CV
+                    </a>
+                </div>
+            </section>
+
+            <!-- ===== Contact ===== -->
+            <section class="content-section" id="contact">
+                <h2 class="section-heading">
+                    <span class="heading-icon"><i class="fas fa-paper-plane"></i></span>
+                    Get In Touch
+                </h2>
+
+                <div class="contact-grid">
+                    <div class="contact-text">
+                        <p>
+                            I'm always interested in research collaborations, discussing new ideas 
+                            in computational imaging, or opportunities in microscopy and deep learning.
+                        </p>
+                        <p>
+                            Don't hesitate to reach out &mdash; whether you have a question about my 
+                            work, want to collaborate, or just want to say hello.
+                        </p>
+                    </div>
+                    <div class="contact-cards">
+                        <a href="https://github.com/Tailong-Chen" target="_blank" class="c-card">
+                            <i class="fab fa-github"></i>
+                            <div>
+                                <strong>GitHub</strong>
+                                <span>@Tailong-Chen</span>
+                            </div>
+                        </a>
+                        <a href="mailto:contact@example.com" class="c-card">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email</strong>
+                                <span>Get in touch</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <p>&copy; 2026 Tai-Long Chen. Powered by 
+                <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+                Inspired by <a href="https://academicpages.github.io/" target="_blank">Academic Pages</a>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
