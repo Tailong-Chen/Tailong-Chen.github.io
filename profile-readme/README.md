@@ -6,26 +6,11 @@
 
 ## 🧑‍🔬 About Me
 
-```python
-class TaiLongChen:
-    name     = "Tai-Long Chen"
-    role     = "Computational Imaging Researcher"
-    focus    = "NP-Cloud drift correction"
-
-    interests = [
-        "SMLM",
-        "Super-Resolution Imaging",
-        "Deep Learning for Microscopy",
-        "Ultrasound Localization",
-        "PSF Modeling",
-        "Drift Correction",
-    ]
-
-    languages = [
-        "Python", "MATLAB",
-        "Julia",  "C++/CUDA",
-    ]
-```
+- **Name**: Tai-Long Chen  
+- **Role**: Computational Imaging Researcher  
+- **Current focus**: NP-Cloud drift correction for SMLM  
+- **Research interests**: SMLM, Super-Resolution Imaging, Deep Learning for Microscopy, Ultrasound Localization, PSF Modeling, Drift Correction  
+- **Languages**: Python, MATLAB, Julia, C++/CUDA  
 
 ---
 
