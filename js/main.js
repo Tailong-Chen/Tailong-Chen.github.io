@@ -38,7 +38,7 @@ function initTheme() {
 function initHeader() {
     const header = document.getElementById('topHeader');
     window.addEventListener('scroll', () => {
-        header.classList.toggle('scrolled', window.scrollY > 10);
+        header.classList.toggle('scrolled', window.scrollY > 20);
     }, { passive: true });
 }
 
@@ -52,7 +52,7 @@ function initActiveNav() {
     function update() {
         let current = '';
         sections.forEach(sec => {
-            const top = sec.offsetTop - 100;
+            const top = sec.offsetTop - 120;
             if (window.scrollY >= top) {
                 current = sec.getAttribute('id');
             }
@@ -127,16 +127,21 @@ function initReveal() {
     items.forEach(el => el.classList.add('reveal'));
 
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                // Stagger animation
-                const delay = Array.from(entry.target.parentElement.children)
-                    .indexOf(entry.target) * 60;
-                setTimeout(() => entry.target.classList.add('visible'), delay);
+                // Stagger animation based on index in parent
+                const children = Array.from(entry.target.parentElement.children);
+                const index = children.indexOf(entry.target);
+                const delay = index * 50; // 50ms stagger
+                
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, delay);
+                
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
     items.forEach(el => observer.observe(el));
 }
@@ -150,11 +155,14 @@ function initSkillBars() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const level = entry.target.getAttribute('data-level');
-                entry.target.style.width = level + '%';
+                // Small delay for drama
+                setTimeout(() => {
+                    entry.target.style.width = level + '%';
+                }, 200);
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.5 });
     fills.forEach(f => observer.observe(f));
 }
 
@@ -164,9 +172,39 @@ function initSkillBars() {
 function initTicker() {
     const track = document.getElementById('tickerItems');
     if (!track) return;
-    // Clone items for seamless loop
+    // Clone items twice for smoother infinite loop on wide screens
     const clone = track.innerHTML;
-    track.innerHTML = clone + clone;
+    track.innerHTML = clone + clone + clone;
+}
+
+// ========================================
+// Spotlight Effect for Cards
+// ========================================
+function initSpotlight() {
+    const cards = document.querySelectorAll('.r-card, .proj-card, .proj-card-sm, .pub-entry, .c-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Apply spotlight via CSS variable (needs corresponding CSS)
+            // Or just direct style for simplicity here, though CSS var is cleaner
+            // We'll use a radial gradient overlay
+            
+            // Check if we have theme colors
+            const style = getComputedStyle(document.documentElement);
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const color = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(79, 70, 229, 0.04)';
+            
+            card.style.background = `radial-gradient(800px circle at ${x}px ${y}px, ${color}, transparent 40%), var(--bg-card)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.background = ''; // Revert to CSS default
+        });
+    });
 }
 
 // ========================================
@@ -181,25 +219,28 @@ function drawMoleculeCanvas() {
     const H = canvas.height;
     const cx = W / 2;
     const cy = H / 2;
-    const R = 65;
+    const R = 68;
 
     // Get theme colors
     const style = getComputedStyle(document.documentElement);
-    const moleculeColor = style.getPropertyValue('--canvas-molecule').trim() || 'rgba(37,99,235,0.6)';
-    const bondColor = style.getPropertyValue('--canvas-bond').trim() || 'rgba(37,99,235,0.15)';
+    // Use fallbacks just in case
+    const moleculeColor = style.getPropertyValue('--canvas-molecule').trim() || '#4f46e5';
+    const bondColor = style.getPropertyValue('--canvas-bond').trim() || 'rgba(79, 70, 229, 0.15)';
 
     // Molecule positions around the avatar
     const molecules = [];
-    const count = 8;
+    const count = 10;
     for (let i = 0; i < count; i++) {
         const angle = (i / count) * Math.PI * 2;
         molecules.push({
-            angle,
-            radius: R + 5 + Math.random() * 8,
-            size: 2 + Math.random() * 2.5,
-            speed: 0.003 + Math.random() * 0.004,
+            baseAngle: angle,
+            angle: angle,
+            radius: R,
+            size: 2 + Math.random() * 2,
+            speed: 0.002 + Math.random() * 0.003,
             offset: Math.random() * Math.PI * 2,
-            pulseSpeed: 0.02 + Math.random() * 0.02
+            wobbleSpeed: 0.01 + Math.random() * 0.01,
+            wobbleRange: 5 + Math.random() * 5
         });
     }
 
@@ -209,45 +250,49 @@ function drawMoleculeCanvas() {
         ctx.clearRect(0, 0, W, H);
         frame++;
 
-        // Draw bonds between nearby molecules
+        // Draw bonds
+        ctx.beginPath();
+        for (let i = 0; i < molecules.length; i++) {
+            const m = molecules[i];
+            // Update position
+            m.angle = m.baseAngle + Math.sin(frame * m.speed + m.offset) * 0.5;
+            const r = m.radius + Math.sin(frame * m.wobbleSpeed) * m.wobbleRange;
+            
+            m.x = cx + Math.cos(m.angle + frame * 0.005) * r;
+            m.y = cy + Math.sin(m.angle + frame * 0.005) * r;
+        }
+
+        // Draw connections
         for (let i = 0; i < molecules.length; i++) {
             const mi = molecules[i];
-            const xi = cx + Math.cos(mi.angle + frame * mi.speed) * mi.radius;
-            const yi = cy + Math.sin(mi.angle + frame * mi.speed) * mi.radius;
-
             for (let j = i + 1; j < molecules.length; j++) {
                 const mj = molecules[j];
-                const xj = cx + Math.cos(mj.angle + frame * mj.speed) * mj.radius;
-                const yj = cy + Math.sin(mj.angle + frame * mj.speed) * mj.radius;
-                const dist = Math.hypot(xi - xj, yi - yj);
-
-                if (dist < 80) {
+                const dist = Math.hypot(mi.x - mj.x, mi.y - mj.y);
+                if (dist < 60) {
+                    const opacity = 1 - (dist / 60);
                     ctx.beginPath();
-                    ctx.moveTo(xi, yi);
-                    ctx.lineTo(xj, yj);
-                    ctx.strokeStyle = bondColor;
+                    ctx.moveTo(mi.x, mi.y);
+                    ctx.lineTo(mj.x, mj.y);
+                    ctx.strokeStyle = bondColor.replace(/[\d.]+\)$/g, `${opacity * 0.4})`); // Hacky opacity adjust
                     ctx.lineWidth = 1;
                     ctx.stroke();
                 }
             }
         }
 
-        // Draw molecules
+        // Draw particles
         molecules.forEach(m => {
-            const x = cx + Math.cos(m.angle + frame * m.speed) * m.radius;
-            const y = cy + Math.sin(m.angle + frame * m.speed) * m.radius;
-            const pulse = 1 + 0.3 * Math.sin(frame * m.pulseSpeed + m.offset);
-            const s = m.size * pulse;
-
+            const pulse = 1 + 0.2 * Math.sin(frame * 0.05 + m.offset);
+            
             // Glow
             ctx.beginPath();
-            ctx.arc(x, y, s * 2.5, 0, Math.PI * 2);
+            ctx.arc(m.x, m.y, m.size * 3 * pulse, 0, Math.PI * 2);
             ctx.fillStyle = bondColor;
             ctx.fill();
 
             // Core
             ctx.beginPath();
-            ctx.arc(x, y, s, 0, Math.PI * 2);
+            ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
             ctx.fillStyle = moleculeColor;
             ctx.fill();
         });
@@ -272,8 +317,8 @@ function drawPSFCanvas() {
     const cy = H / 2;
 
     const style = getComputedStyle(document.documentElement);
-    const centerColor = style.getPropertyValue('--psf-center').trim();
-    const ringColor = style.getPropertyValue('--psf-ring').trim();
+    const centerColor = style.getPropertyValue('--psf-center').trim() || '#4f46e5';
+    const ringColor = style.getPropertyValue('--psf-ring').trim() || 'rgba(79, 70, 229, 0.08)';
 
     let frame = 0;
 
@@ -281,11 +326,15 @@ function drawPSFCanvas() {
         ctx.clearRect(0, 0, W, H);
         frame++;
 
-        // Background grid (subtle)
+        // 1. Grid lines (Perspective or flat? Flat for elegance)
         ctx.strokeStyle = ringColor;
         ctx.lineWidth = 0.5;
-        const gridSize = 20;
-        for (let x = 0; x < W; x += gridSize) {
+        const gridSize = 30;
+        
+        // Animated grid drift
+        const drift = (frame * 0.2) % gridSize;
+        
+        for (let x = -gridSize + drift; x < W; x += gridSize) {
             ctx.beginPath();
             ctx.moveTo(x, 0);
             ctx.lineTo(x, H);
@@ -298,82 +347,49 @@ function drawPSFCanvas() {
             ctx.stroke();
         }
 
-        // Draw Airy-like rings
-        const maxR = 100;
-        const rings = 6;
-        for (let i = rings; i >= 0; i--) {
-            const r = (i / rings) * maxR;
-            const breathe = 1 + 0.03 * Math.sin(frame * 0.02 + i * 0.5);
-            const actualR = r * breathe;
-
-            // Intensity falls off like Airy pattern
-            const intensity = i === 0 ? 0.9 : Math.max(0.03, 0.25 / (i * 0.8));
-
-            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, actualR + 15);
-            gradient.addColorStop(0, `rgba(37, 99, 235, ${intensity})`);
-            gradient.addColorStop(1, `rgba(37, 99, 235, 0)`);
-
-            ctx.beginPath();
-            ctx.arc(cx, cy, actualR + 15, 0, Math.PI * 2);
-            ctx.fillStyle = gradient;
-            ctx.fill();
-
-            // Ring outline
-            if (i > 0 && i < rings) {
-                ctx.beginPath();
-                ctx.arc(cx, cy, actualR, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(37, 99, 235, ${0.1 + 0.05 * Math.sin(frame * 0.015 + i)})`;
-                ctx.lineWidth = 1;
-                ctx.stroke();
-            }
-        }
-
-        // Central bright peak
-        const peakGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 20);
-        peakGlow.addColorStop(0, centerColor);
-        peakGlow.addColorStop(0.5, 'rgba(37, 99, 235, 0.3)');
-        peakGlow.addColorStop(1, 'rgba(37, 99, 235, 0)');
+        // 2. The Airy Pattern (Simulated 2D Gaussian/Bessel)
+        // Draw multiple rings with varying opacity
+        const maxR = 90;
+        
+        // Gradient for the main lobe
+        const mainLobe = ctx.createRadialGradient(cx, cy, 0, cx, cy, 30);
+        mainLobe.addColorStop(0, centerColor); // Center
+        mainLobe.addColorStop(0.4, centerColor.replace(')', ', 0.6)')); 
+        mainLobe.addColorStop(1, 'rgba(0,0,0,0)');
+        
+        ctx.globalAlpha = 0.8 + 0.2 * Math.sin(frame * 0.03);
         ctx.beginPath();
-        ctx.arc(cx, cy, 20, 0, Math.PI * 2);
-        ctx.fillStyle = peakGlow;
+        ctx.arc(cx, cy, 30, 0, Math.PI * 2);
+        ctx.fillStyle = mainLobe;
         ctx.fill();
+        ctx.globalAlpha = 1.0;
 
-        // Scattered photon dots
-        const numPhotons = 30;
-        for (let i = 0; i < numPhotons; i++) {
-            const angle = (frame * 0.01 + i * 1.37) % (Math.PI * 2);
-            const dist = 10 + (i * 3.7 + frame * 0.3) % maxR;
-            // Gaussian-ish probability
-            const prob = Math.exp(-(dist * dist) / (2 * 30 * 30));
-            if (Math.random() < prob * 0.6 || dist < 25) {
-                const px = cx + Math.cos(angle) * dist + (Math.random() - 0.5) * 8;
-                const py = cy + Math.sin(angle) * dist + (Math.random() - 0.5) * 8;
-                const alpha = 0.3 + prob * 0.5;
-                const sz = 1 + prob * 2;
+        // Side lobes (Rings)
+        const rings = [45, 65, 85];
+        rings.forEach((r, i) => {
+            const intensity = 0.15 / (i + 1);
+            const breathe = Math.sin(frame * 0.02 - i) * 2;
+            
+            ctx.beginPath();
+            ctx.arc(cx, cy, r + breathe, 0, Math.PI * 2);
+            ctx.strokeStyle = centerColor; // Use main color but transparent
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = intensity;
+            ctx.stroke();
+            ctx.globalAlpha = 1.0;
+        });
 
-                ctx.beginPath();
-                ctx.arc(px, py, sz, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(37, 99, 235, ${alpha})`;
-                ctx.fill();
-            }
+        // 3. Simulated Single Molecule Blinking (Stochastic)
+        // Random bright spots appearing and disappearing
+        if (Math.random() < 0.1) {
+             // Create a transient molecule
         }
 
-        // Labels
-        ctx.font = '500 10px "JetBrains Mono", monospace';
-        ctx.fillStyle = style.getPropertyValue('--text-muted').trim() || '#94a3b8';
-        ctx.textAlign = 'center';
-        ctx.fillText('Point Spread Function', cx, H - 16);
-        ctx.fillText('Airy Pattern Simulation', cx, H - 4);
-
-        // Axis labels
-        ctx.font = '400 9px "JetBrains Mono", monospace';
-        ctx.textAlign = 'left';
-        ctx.fillText('x [nm]', W - 42, H - 16);
-        ctx.save();
-        ctx.translate(12, cy + 20);
-        ctx.rotate(-Math.PI / 2);
-        ctx.fillText('y [nm]', 0, 0);
-        ctx.restore();
+        // Draw axis labels
+        ctx.fillStyle = style.getPropertyValue('--text-muted').trim();
+        ctx.font = '10px "JetBrains Mono"';
+        ctx.fillText('x [nm]', W - 40, H - 10);
+        ctx.fillText('y [nm]', 10, 20);
 
         requestAnimationFrame(drawAiryPattern);
     }
@@ -394,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initReveal();
     initSkillBars();
     initTicker();
+    initSpotlight(); // New spotlight effect
     drawMoleculeCanvas();
     drawPSFCanvas();
 });
